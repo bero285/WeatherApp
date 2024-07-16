@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   search: {
     // width: '100%',
     flex: 1,
-    height: 35,
+    height: 40,
     borderWidth: 1,
     borderColor: '#89CFF0',
     paddingHorizontal: 10,

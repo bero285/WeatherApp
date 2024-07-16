@@ -24,7 +24,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 function App(): React.JSX.Element {
   return (
     <View style={{flex: 1}}>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar barStyle={'light-content'} />
       <View style={{width: '100%', flex: 1}}>
         <NavigationContainer>
           <AppNavigator />

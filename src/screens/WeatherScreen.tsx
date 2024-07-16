@@ -45,8 +45,12 @@ function WeatherScreen({route}: any): React.JSX.Element {
           <Text style={{fontSize: 24, color: '#89CFF0'}}>
             {weather?.location?.name}
           </Text>
-          <Text style={{fontSize: 20, color: '#89CFF0'}}>25°</Text>
-          <Text style={{fontSize: 16, color: '#89CFF0'}}>Scattered Cloud</Text>
+          <Text style={{fontSize: 20, color: '#89CFF0'}}>
+            {weather?.current?.temp_c}°
+          </Text>
+          <Text style={{fontSize: 16, color: '#89CFF0'}}>
+            {weather?.current.condition.text}
+          </Text>
         </View>
         <View style={styles.weatherCardContainer}>
           <View
@@ -57,7 +61,7 @@ function WeatherScreen({route}: any): React.JSX.Element {
               backgroundColor: 'lightgray',
               width: '100%',
               paddingHorizontal: 14,
-              paddingVertical: 9,
+              paddingVertical: 12,
               borderRadius: 10,
             }}>
             <MaterialIcons name="calendar-o" size={20} color="black" />
@@ -68,7 +72,7 @@ function WeatherScreen({route}: any): React.JSX.Element {
             renderItem={({item}) => (
               <Weather weather={item} navigation={navigation} />
             )}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.date}
             style={{width: '100%'}}
             contentContainerStyle={{gap: 10}}
           />
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 10,
     marginTop: 60,
-    gap: 15,
+    gap: 25,
   },
 });
 

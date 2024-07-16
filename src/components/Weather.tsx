@@ -7,7 +7,11 @@ function Weather({weather}: any): React.JSX.Element {
     <View style={styles.container}>
       <View style={styles.part}>
         <Text>{weather.day.condition.text}</Text>
-        <Ionicons name="cloud" size={20} color="#89CFF0" />
+        {/* <Ionicons name="cloud" size={20} color="#89CFF0" /> */}
+        <Image
+          source={{uri: `https:${weather?.day?.condition?.icon}`}}
+          style={{width: 30, height: 30}}
+        />
       </View>
       <View style={styles.part}>
         <Text>{weather.date}</Text>
