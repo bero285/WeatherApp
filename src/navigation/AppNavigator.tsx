@@ -7,7 +7,11 @@ import SearchScreen from '../screens/SearchScreen';
 const Stack = createNativeStackNavigator();
 function AppNavigator(): React.JSX.Element {
   return (
-    <Stack.Navigator initialRouteName="Weather">
+    <Stack.Navigator
+      initialRouteName="Weather"
+      screenOptions={{
+        headerShown: false,
+      }}>
       <Stack.Screen name="weather" component={WeatherScreen} />
       <Stack.Screen name="search" component={SearchScreen} />
     </Stack.Navigator>

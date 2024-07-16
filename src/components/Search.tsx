@@ -1,19 +1,30 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/FontAwesome';
+import {NavigationProp} from '../types/NavigationTypes';
 
-function Weather({weather}: any): React.JSX.Element {
+function Weather({cities}: any): React.JSX.Element {
+  const navigation = useNavigation<NavigationProp>();
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => navigation.navigate('weather', {city: cities.name})}>
       <View style={styles.part}>
-        <Text>{weather.day.condition.text}</Text>
+        <Text>{cities.name}</Text>
         <Ionicons name="cloud" size={20} color="#89CFF0" />
       </View>
       <View style={styles.part}>
-        <Text>{weather.date}</Text>
-        <Text>{weather.day.avgtemp_c}°</Text>
+        <Text>{cities.region}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

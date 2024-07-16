@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -12,8 +12,28 @@ import cloud from '../assets/cloudy.jpg';
 import Weather from '../components/Weather';
 import {useNavigation} from '@react-navigation/native';
 import {NavigationProp} from '../types/NavigationTypes';
-function WeatherScreen({}): React.JSX.Element {
+function WeatherScreen({route}: any): React.JSX.Element {
   const navigation = useNavigation<NavigationProp>();
+  // http://api.weatherapi.com/v1/current.json?key=8f0c91bb205d4468a2a84301241607&q=london
+  const [weather, setWeather] = useState<any>(null);
+  const fetchCity = async (city: string) => {
+    try {
+      const response = await fetch(
+        `http://api.weatherapi.com/v1/forecast.json?key=8f0c91bb205d4468a2a84301241607&q=${city}&days=6`,
+      );
+      const data = await response.json();
+      setWeather(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    if (route?.params?.city) {
+      fetchCity(route.params.city);
+    } else {
+      fetchCity('london');
+    }
+  }, [route.params]);
   return (
     <View style={styles.container}>
       <Image source={cloud} style={styles.image} />
@@ -23,7 +43,7 @@ function WeatherScreen({}): React.JSX.Element {
         </TouchableOpacity>
         <View style={styles.weatherInfo}>
           <Text style={{fontSize: 24, color: '#89CFF0'}}>
-            Manchester,London
+            {weather?.location?.name}
           </Text>
           <Text style={{fontSize: 20, color: '#89CFF0'}}>25°</Text>
           <Text style={{fontSize: 16, color: '#89CFF0'}}>Scattered Cloud</Text>
@@ -43,7 +63,15 @@ function WeatherScreen({}): React.JSX.Element {
             <MaterialIcons name="calendar-o" size={20} color="black" />
             <Text>6 - DAY FORCAST</Text>
           </View>
-          <Weather />
+          <FlatList
+            data={weather?.forecast?.forecastday}
+            renderItem={({item}) => (
+              <Weather weather={item} navigation={navigation} />
+            )}
+            keyExtractor={item => item.id}
+            style={{width: '100%'}}
+            contentContainerStyle={{gap: 10}}
+          />
         </View>
       </View>
     </View>
@@ -66,7 +94,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
   },
   weatherInfo: {
-    paddingTop: 20,
+    paddingTop: 40,
     width: '100%',
     alignItems: 'center',
   },
@@ -75,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 10,
-    marginTop: 30,
+    marginTop: 60,
     gap: 15,
   },
 });
